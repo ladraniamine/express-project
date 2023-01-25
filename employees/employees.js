@@ -1,21 +1,8 @@
 const express = require('express')
 const joi = require('joi')
-const mongoose =require('mongoose')
+const Employee = require('../model/employees')
 
 const router = express.Router()
-//add a schema
-const Employee = mongoose.model('Employee', new mongoose.Schema({
-  fullname:{
-    type:String,
-    required:true,
-    minlength:3,
-    maxlength:44
-  },
-  salery:{
-    type:Number,
-    required:true
-  }
-}))
 
 //get all employees 
 router.get('/',async(req,res)=>{
@@ -33,17 +20,7 @@ res.send(employee)
 
 //add new employees
 router.post('/', async(req,res)=>{
-const schema = joi.object( {
-  fullname: joi.string().min(3).required(),
-  salery:joi.number().integer().required()
-})
-
- const {error} = schema.validate(req.body);
-
-if(error){
-return res.send(error.message)
-}
-  
+  validateEmployee(req.body , res)
 const newemployee = new Employee({
   fullname:req.body.fullname,
   salery:req.body.salery
@@ -52,6 +29,18 @@ await newemployee.save()
 res.send(newemployee)
 })
 
+function validateEmployee(body , res){
+  const schema = joi.object( {
+    fullname: joi.string().min(3).required(),
+    salery:joi.number().integer().required()
+  })
+  
+   const {error} = schema.validate(body);
+  
+  if(error){
+  return res.send(error.message)
+  }
+}
 //uptade an employee by id
 router.put('/:id',async(req,res)=>{
         const schema = joi.object({
