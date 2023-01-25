@@ -1,4 +1,5 @@
 const express = require('express')
+const joi = require('joi')
 const app = express()
 
 app.use(express.json())
@@ -24,7 +25,19 @@ app.get('/:id',(req,res)=>{
 
   //add new employees
   app.post('/', (req,res)=>{
-  console.log(req.body)
+      const schema = joi.object( {
+        id:joi.number().integer().min(4).required(),
+        fullname: joi.string().min(3).required(),
+        salery:joi.number().integer().required()
+      })
+
+    //  const catcherr =  schema.validate(req.body);
+       const {error} = schema.validate(req.body);
+     
+     if(error){
+      return res.send(error.message)
+     }
+        
   const newemployee = {
     id:req.body.id,
     fullname:req.body.fullname,
