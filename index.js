@@ -1,8 +1,10 @@
 const express = require('express')
 const joi = require('joi')
+const log1 = require('./logger/logging')
 const app = express()
 
 app.use(express.json())
+app.use(log1)
 
       const employees = [
         {id:1, fullname:"amine ladrani", salery:3000},
