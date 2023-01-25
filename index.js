@@ -47,7 +47,15 @@ app.put('/:id',(req,res)=>{
 })
 
 //remove an employee
-
+app.delete('/:id',(req,res)=>{
+const employee = employees.find(emp => emp.id == req.params.id)
+if(!employee){
+  return res.send("we couldn't found this employee")
+}
+  const idxOfRmemployee = employees.indexOf(employee)
+  employees.splice(idxOfRmemployee,1)
+  res.send(employee)
+})
 //running the server
 const port = process.env.port || 3000
 app.listen(port , ()=>{
