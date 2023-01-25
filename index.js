@@ -4,12 +4,15 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const employees = require('./employees/employees')
 const app = express()
+//for devlopment envirement 
+if(app.get('env') === 'development'){
+    app.use(morgan('tiny'))
+    app.use(log1)
+}
 
 //using the middlewares
-app.use(morgan('tiny'))
 app.use(helmet())
 app.use(express.json())
-app.use(log1)
 
 app.use('/', employees)
 
