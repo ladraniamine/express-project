@@ -1,7 +1,5 @@
 const express = require('express')
-const joi = require('joi')
-const Employee = require('../model/employees')
-
+const {Employee,validateEmployee,validateEmployeeput} = require('../model/employees')
 const router = express.Router()
 
 //get all employees 
@@ -20,7 +18,9 @@ res.send(employee)
 
 //add new employees
 router.post('/', async(req,res)=>{
+  
   validateEmployee(req.body , res)
+  
 const newemployee = new Employee({
   fullname:req.body.fullname,
   salery:req.body.salery
@@ -29,30 +29,9 @@ await newemployee.save()
 res.send(newemployee)
 })
 
-function validateEmployee(body , res){
-  const schema = joi.object( {
-    fullname: joi.string().min(3).required(),
-    salery:joi.number().integer().required()
-  })
-  
-   const {error} = schema.validate(body);
-  
-  if(error){
-  return res.send(error.message)
-  }
-}
 //uptade an employee by id
 router.put('/:id',async(req,res)=>{
-        const schema = joi.object({
-          fullname:joi.string().required(),
-          salery:joi.number().integer().required()
-        })
-
-        const {error} = schema.validate(req.body)
-        if(error){
-          return res.send(error.message)
-        }
-    
+       validateEmployeeput(req.body , res)
         //
       const employee = await Employee.findByIdAndUpdate(req.params.id,{
         fullname:req.body.fullname
