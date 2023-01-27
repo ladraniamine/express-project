@@ -2,7 +2,7 @@ const express = require('express')
 const log1 = require('./logger/logging')
 const helmet = require('helmet')
 const morgan = require('morgan')
-const employees = require('./employees/employees')
+const employees = require('./routes/employees')
 const mongoose = require('mongoose')
 const app = express()
 //for devlopment envirement 
