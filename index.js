@@ -3,6 +3,7 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const employees = require('./routes/employees')
 const user = require('./routes/user')
+const auth = require('./routes/auth')
 const mongoose = require('mongoose')
 const app = express()
 
@@ -20,6 +21,7 @@ app.use(helmet())
 app.use(express.json())
 app.use('/employees', employees)
 app.use('/user' , user)
+app.use('/auth' , auth)
 
 //running the server
 const PORT = process.env.PORT || 3000
