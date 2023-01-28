@@ -9,7 +9,6 @@ const app = express()
 //for devlopment envirement 
 if(app.get('env') === 'development'){
     app.use(morgan('tiny'))
-    app.use(log1)
 }
 mongoose.set('strictQuery', false);
 mongoose.connect("mongodb://localhost:27017/expDB", { useNewUrlParser: true })

@@ -15,28 +15,22 @@ const Employee = mongoose.model('Employee', new mongoose.Schema({
   }
 }))
 
-const validateEmployee = (body , res )=>{
+const validateEmployee = (body)=>{
   const schema = joi.object( {
     fullname: joi.string().min(3).required(),
     salery:joi.number().integer().required()
   })
   
    const {error} = schema.validate(body);
-  
-  if(error){
-  return res.send(error.message)
-  }
+    return error
 }
 
-const validateEmployeeput = (body , res )=>{
+const validateEmployeeput = (body)=>{
   const schema = joi.object( {
     fullname: joi.string().min(3).required(),
   })
   
    const {error} = schema.validate(body);
-  
-  if(error){
-  return res.send(error.message)
-  }
+    return error
 }
 module.exports = {validateEmployee , Employee, validateEmployeeput}
