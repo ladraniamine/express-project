@@ -1,10 +1,11 @@
 const express = require('express')
-const log1 = require('./logger/logging')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const employees = require('./routes/employees')
+const user = require('./routes/user')
 const mongoose = require('mongoose')
 const app = express()
+
 //for devlopment envirement 
 if(app.get('env') === 'development'){
     app.use(morgan('tiny'))
@@ -18,10 +19,11 @@ mongoose.connect("mongodb://localhost:27017/expDB", { useNewUrlParser: true })
 //using the middlewares
 app.use(helmet())
 app.use(express.json())
-app.use('/', employees)
+app.use('/employees', employees)
+app.use('/user' , user)
 
 //running the server
-const port = process.env.port || 3000
-app.listen(port , ()=>{
-    console.log(`app ronning on port ${port}...`)
+const PORT = process.env.PORT || 3000
+app.listen(PORT , ()=>{
+    console.log(`app ronning on PORT ${PORT}...`)
 })

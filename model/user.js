@@ -15,7 +15,7 @@ const User = mongoose.model('User', new mongoose.Schema({
     minlength:3,
     maxlength:255
   },
-  email:{
+  password:{
     type:String,
     required:true,
     unique:true,
