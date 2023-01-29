@@ -6,22 +6,28 @@ const bcrypt = require('bcrypt')
 const joi = require('joi')
 
 router.post('/' , async(req , res)=>{
-  const err = validate(req.body)
-  if(err){
-    return res.status(404).send(err.message)
-  }
-  let user = await User.findOne({email:req.body.email})
+  try{
+      //check if there is any error
+        const err = validate(req.body)
+      if(err){
+        return res.status(404).send(err.message)
+      }
+      let user = await User.findOne({email:req.body.email})
 
-  if(!user){
-    return res.status(404).send('invalid email or password')
-  }
+      if(!user){
+        return res.status(404).send('invalid email or password')
+      }
 
-  const checkPassword = await bcrypt.compare(req.body.password , user.password)
-  if(!checkPassword){
-    return res.status(404).send('invalid email or password')
-  }
+      const checkPassword = await bcrypt.compare(req.body.password , user.password)
+      if(!checkPassword){
+        return res.status(404).send('invalid email or password')
+      }
+      const token = user.generateTokens()
 
-  res.send('ok')
+      res.send(token)
+  }catch(err){
+      return res.status(404).send(err.message)
+  }
 })
 
 function validate(user){

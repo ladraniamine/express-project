@@ -29,8 +29,9 @@ router.post('/' , async(req,res)=>{
 
         //save the user in our database
       await user.save()
+      const token = user.generateTokens()
         //i used pick to response with just fullname and email that come from user
-      res.send(_.pick(user , ['fullname','email']))
+      res.header('auth-token', token).send(_.pick(user , ['fullname','email']))
  }catch(err){
   return res.send('there is an err you should fix it')
  }
