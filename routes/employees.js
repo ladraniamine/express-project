@@ -1,7 +1,7 @@
 const express = require('express')
 const {Employee,validateEmployee,validateEmployeeput} = require('../model/employees')
 const router = express.Router()
-
+const auth = require('../middleware/auth')
 //get all employees 
 router.get('/',async(req,res)=>{
   try{
@@ -25,7 +25,7 @@ try{
 })
 
 //add new employees
-router.post('/', async(req,res)=>{
+router.post('/', auth , async(req,res)=>{
  try{
       const err = validateEmployee(req.body)
       if(err){
