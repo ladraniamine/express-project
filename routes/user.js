@@ -3,7 +3,17 @@ const router = express.Router()
 const {User , validateUser} = require('../model/user')
 const _ = require('lodash')
 const bcrypt = require('bcrypt')
-
+const auth = require('../middleware/auth')
+//get the user profile
+router.get('/profile/:id' , auth , async(req,res)=>{
+  try{
+    // console.log('this is req: '+req.user)
+    const profile = await User.findById({_id:req.params.id}).select('-password')
+    res.status(200).send(profile)
+  }catch(err){
+    return res.status(404).send('you have a problem you are in catch err')
+  }
+})
 //add new user
 router.post('/' , async(req,res)=>{
  try{
