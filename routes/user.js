@@ -4,6 +4,7 @@ const {User , validateUser} = require('../model/user')
 const _ = require('lodash')
 const bcrypt = require('bcrypt')
 const auth = require('../middleware/auth')
+
 //get the user profile
 router.get('/profile/:id' , auth , async(req,res)=>{
   try{
